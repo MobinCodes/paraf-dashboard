@@ -6,13 +6,7 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { CheckSquare, Zap, Check, ArrowLeft } from 'lucide-react';
 import { getFallbackCupImage } from './DashboardMain';
-
-interface LevelItem {
-    id: number;
-    name: string;
-    scores: string | number;
-    file?: { link?: string } | null;
-}
+import { LevelItem } from '@/shared/types';
 
 interface ClubLevelsSectionProps {
     levels: LevelItem[];

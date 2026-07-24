@@ -98,7 +98,7 @@ export function DashboardHeader({
                         variant="outline"
                         size="sm"
                         onClick={logout}
-                        className="h-8 shrink-0 rounded-full border-red-200 bg-white px-3 text-xs font-bold text-red-600 hover:bg-red-50 hover:text-red-700"
+                        className="h-8 shrink-0 rounded-full border-red-200 bg-white px-3 text-xs font-bold text-red-600 hover:bg-red-50 hover:text-red-700 cursor-pointer"
                     >
                         <LogOut className="ml-1 h-3.5 w-3.5" />
                         خروج

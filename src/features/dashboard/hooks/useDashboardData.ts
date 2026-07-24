@@ -10,9 +10,85 @@ import {
     getRecentActivities,
 } from '../services/dashboard.api';
 import { useVitrinStore } from '@/features/vitrin/store/vitrin.store';
-import { RecentActivitiesTypeEnum } from '@/shared/types';
+import {
+    DashboardClubSummary,
+    EndUserRoleEnum,
+    LevelItem,
+    RecentActivitiesTypeEnum,
+    RecentActivityItem,
+    UserMeResponse,
+    UserVitrinItem,
+    VitrinDetailResponse,
+} from '@/shared/types';
 
-export function useDashboardData() {
+type ApiEnvelope<T> = {
+    result?: T;
+    data?: T;
+};
+
+const unwrapArray = <T,>(value: unknown): T[] => {
+    if (Array.isArray(value)) return value as T[];
+    if (value && typeof value === 'object') {
+        const envelope = value as ApiEnvelope<unknown[]>;
+        if (Array.isArray(envelope.result)) return envelope.result as T[];
+        if (Array.isArray(envelope.data)) return envelope.data as T[];
+    }
+    return [];
+};
+
+const unwrapObject = <T,>(value: unknown): T | undefined => {
+    if (value && typeof value === 'object') {
+        const envelope = value as ApiEnvelope<T>;
+        if (envelope.result !== undefined) return envelope.result;
+        if (envelope.data !== undefined) return envelope.data;
+    }
+    return value as T | undefined;
+};
+
+type DashboardUserInfo = UserMeResponse &
+    Partial<VitrinDetailResponse> & {
+        companyName?: string;
+        role?: EndUserRoleEnum | string;
+        city?: {
+            name?: string;
+        };
+        country?: {
+            name?: string;
+        };
+        user?: {
+            firstName?: string;
+            lastName?: string;
+            city?: {
+                name?: string;
+            };
+            country?: {
+                name?: string;
+            };
+        };
+        file?: {
+            link?: string;
+        };
+        logo?: {
+            link?: string;
+        };
+        defaultRole?: EndUserRoleEnum | string;
+        iranianAuthStatus?: boolean;
+    };
+
+type DashboardData = {
+    vitrins: UserVitrinItem[];
+    userInfo: DashboardUserInfo | undefined;
+    levels: LevelItem[];
+    clubSummary: DashboardClubSummary | undefined;
+    recentActivities: RecentActivityItem[];
+    walletBalance: number;
+    activityType: RecentActivitiesTypeEnum | undefined;
+    setActivityType: (type: RecentActivitiesTypeEnum | undefined) => void;
+    isLoadingRecentActivities: boolean;
+    isLoading: boolean;
+};
+
+export function useDashboardData(): DashboardData {
     const activeTab = useVitrinStore((state) => state.activeTab);
     const isProfile = activeTab === 'profile';
 
@@ -49,35 +125,11 @@ export function useDashboardData() {
             }),
     });
 
-    const rawLevels = levelsQuery.data as any;
-    const levelsArray = Array.isArray(rawLevels)
-        ? rawLevels
-        : Array.isArray(rawLevels?.result)
-            ? rawLevels.result
-            : Array.isArray(rawLevels?.data)
-                ? rawLevels.data
-                : [];
-
-    const rawVitrins = vitrinsQuery.data as any;
-    const vitrinsArray = Array.isArray(rawVitrins)
-        ? rawVitrins
-        : Array.isArray(rawVitrins?.result)
-            ? rawVitrins.result
-            : Array.isArray(rawVitrins?.data)
-                ? rawVitrins.data
-                : [];
-
-    const rawActivities = recentActivitiesQuery.data as any;
-    const activitiesArray = Array.isArray(rawActivities)
-        ? rawActivities
-        : Array.isArray(rawActivities?.result)
-            ? rawActivities.result
-            : Array.isArray(rawActivities?.data)
-                ? rawActivities.data
-                : [];
-
-    const userInfoData = (userInfoQuery.data as any)?.result || userInfoQuery.data;
-    const clubSummaryData = (clubSummaryQuery.data as any)?.result || clubSummaryQuery.data;
+    const levelsArray = unwrapArray<LevelItem>(levelsQuery.data);
+    const vitrinsArray = unwrapArray<UserVitrinItem>(vitrinsQuery.data);
+    const activitiesArray = unwrapArray<RecentActivityItem>(recentActivitiesQuery.data);
+    const userInfoData = unwrapObject<DashboardUserInfo>(userInfoQuery.data);
+    const clubSummaryData = unwrapObject<DashboardClubSummary>(clubSummaryQuery.data);
 
     return {
         vitrins: vitrinsArray,

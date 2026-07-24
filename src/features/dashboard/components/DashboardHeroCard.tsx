@@ -5,12 +5,13 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Info, Coins, AlertCircle, CheckSquare, Check, ChevronLeft } from 'lucide-react';
 import { getFallbackCupImage } from './DashboardMain';
+import { DashboardClubSummary, UserVitrinSummary } from '@/shared/types';
 
 interface DashboardHeroCardProps {
     activeTab: string;
     setActiveTab: (tab: string) => void;
     isProfile: boolean;
-    vitrins: any[];
+    vitrins: UserVitrinSummary[];
     displayName: string;
     locationText: string;
     roleBadge: string;
@@ -19,7 +20,7 @@ interface DashboardHeroCardProps {
     activeLevelName: string;
     activeLevelIconUrl: string | null;
     avatarUrl: string | null;
-    clubSummary: any;
+    clubSummary?: DashboardClubSummary;
     iranianAuthStatus: boolean;
     isLoading: boolean;
 }
@@ -90,7 +91,7 @@ export default function DashboardHeroCard({
                             پروفایل شخصی
                         </button>
 
-                        {vitrins.map((vitrin: any) => (
+                        {vitrins.map((vitrin) => (
                             <button
                                 key={vitrin.id}
                                 type="button"

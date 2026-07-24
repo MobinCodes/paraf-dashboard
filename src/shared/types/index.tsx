@@ -21,9 +21,49 @@ export enum RecentActivitiesTypeEnum {
 }
 
 export interface UserMeResponse {
-    level: string;
+    level: string | UserLevelRef;
     coins: number;
     scores: number;
+    firstName?: string;
+    lastName?: string;
+    companyName?: string;
+    city?: {
+        name?: string;
+    };
+    country?: {
+        name?: string;
+    };
+    user?: {
+        firstName?: string;
+        lastName?: string;
+        city?: {
+            name?: string;
+        };
+        country?: {
+            name?: string;
+        };
+    };
+    file?: {
+        link?: string;
+    };
+    logo?: {
+        link?: string;
+    };
+    defaultRole?: EndUserRoleEnum | string;
+    iranianAuthStatus?: boolean;
+}
+
+export interface UserLevelRef {
+    id?: string | number;
+    name?: string;
+    scores?: number;
+    status?: string;
+    createdAt?: string;
+    updatedAt?: string;
+    deletedAt?: string | null;
+    file?: {
+        link?: string;
+    };
 }
 
 export interface UserVitrinItem {
@@ -33,11 +73,12 @@ export interface UserVitrinItem {
 }
 
 export interface VitrinDetailResponse {
-    level: string;
+    level: string | UserLevelRef;
     scores: number;
 }
 
 export interface LevelItem {
+    id?: string | number;
     name: string;
     scores: number;
     file: {
@@ -57,4 +98,17 @@ export interface RecentActivityItem {
     taskDescription: string;
     scoreAmount: number;
     coinAmount: number;
+}
+
+export interface UserVitrinSummary {
+    id: string | number;
+    role?: EndUserRoleEnum | string;
+    companyName?: string;
+    defaultRole?: EndUserRoleEnum | string;
+}
+
+export interface DashboardClubSummary {
+    numberTasksCompleted?: number;
+    totalScoreMonthly?: number;
+    totalCoinMonthly?: number;
 }

@@ -25,7 +25,7 @@ export function LoginForm() {
         handleSubmit,
         formState: { errors },
     } = useForm<LoginSchemaType>({
-        resolver: zodResolver(loginSchema),
+        resolver: zodResolver(loginSchema as never),
         defaultValues: {
             phone: '989027927890',
             password: 'p.123456',
@@ -43,8 +43,19 @@ export function LoginForm() {
             } else {
                 setErrorMsg('توکن دریافت نشد');
             }
-        } catch (err: any) {
-            setErrorMsg(err?.response?.data?.message || 'خطا در ورود به سیستم');
+        } catch (err: unknown) {
+            if (typeof err === 'object' && err !== null && 'response' in err) {
+                const apiError = err as {
+                    response?: {
+                        data?: {
+                            message?: string;
+                        };
+                    };
+                };
+                setErrorMsg(apiError.response?.data?.message || 'خطا در ورود به سیستم');
+            } else {
+                setErrorMsg('خطا در ورود به سیستم');
+            }
         } finally {
             setLoading(false);
         }

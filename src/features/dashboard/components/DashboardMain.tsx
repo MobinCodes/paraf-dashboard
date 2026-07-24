@@ -10,7 +10,7 @@ import { WelcomeBanner } from './WelcomeBanner';
 import DashboardHeroCard from './DashboardHeroCard';
 import { ClubLevelsSection } from './ClubLevelsSection';
 import { RecentActivitiesSection } from './RecentActivitiesSection';
-import { ClubLevelItem } from '@/shared/types';
+import { LevelItem } from '@/shared/types';
 import { ClubFeaturesSection } from './ClubFeaturesSection';
 
 export const getFullImageUrl = (path?: string | null): string | null => {
@@ -60,7 +60,8 @@ export function DashboardMain() {
     const currentScores = Number(userInfo?.scores ?? 0);
     const currentCoins = isProfile ? Number(userInfo?.coins ?? 0) : 0;
 
-    const currentLevel = userInfo?.level || levels?.find((lvl: ClubLevelItem) => currentScores >= Number(lvl.scores));
+    const currentLevelRef = userInfo?.level || levels?.find((lvl: LevelItem) => currentScores >= Number(lvl.scores));
+    const currentLevel = typeof currentLevelRef === 'string' ? undefined : currentLevelRef;
     const activeLevelName = currentLevel?.name || 'سطح برنزی';
     const activeLevelIconUrl = getFullImageUrl(currentLevel?.file?.link);
 
