@@ -113,6 +113,16 @@ export function DashboardMain() {
                     }}
                 />
 
+                <section className="overflow-hidden rounded-3xl border border-border/30 bg-surface-white shadow-2xs">
+                    <div className="relative aspect-[1440/260] w-full min-h-[160px] sm:min-h-[200px] md:min-h-[240px]">
+                        <img
+                            src="/images/banner.png"
+                            alt="Dashboard banner"
+                            className="block h-full w-full object-cover object-center"
+                        />
+                    </div>
+                </section>
+
                 {/* ---------------------------------------------------- */}
                 {/* ۴. لیست فعالیت‌های اخیر */}
                 {/* ---------------------------------------------------- */}
