@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { useDashboardData } from '../hooks/useDashboardData';
 import { useVitrinStore } from '@/features/vitrin/store/vitrin.store';
 import { IMAGE_BASE_URL } from '@/shared/api/axios';
@@ -67,16 +68,18 @@ export function DashboardMain() {
     const avatarUrl = getFullImageUrl(rawAvatarLink);
 
     return (
-        <div className="min-h-screen pb-16 font-sans text-text-main dir-rtl">
+        <div className="min-h-screen pb-16 font-sans text-text-main dir-rtl">
+
             <DashboardHeader
                 userData={userInfo}
                 levels={levels}
                 walletBalance={walletBalance}
             />
 
-            <main className="max-w-7xl mx-auto px-4 sm:px-6 pt-24 space-y-20">
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 pt-50 space-y-20">
                 <WelcomeBanner userName={displayName} />
-
+
+
                 <DashboardHeroCard
                     activeTab={activeTab}
                     setActiveTab={setActiveTab}
@@ -94,7 +97,8 @@ export function DashboardMain() {
                     iranianAuthStatus={Boolean(userInfo?.iranianAuthStatus)}
                     isLoading={isLoading}
                 />
-
+
+
 
                 <ClubLevelsSection
                     levels={levels}
@@ -105,10 +109,12 @@ export function DashboardMain() {
 
                 <section className="overflow-hidden rounded-3xl border border-border/30 bg-surface-white shadow-2xs">
                     <div className="relative aspect-[1440/260] w-full min-h-[160px] sm:min-h-[200px] md:min-h-[240px]">
-                        <img
+                        <Image
                             src="/images/banner.png"
                             alt="Dashboard banner"
-                            className="block h-full w-full object-cover object-center"
+                            fill
+                            sizes="(max-width: 768px) 100vw, (max-width: 1280px) 100vw, 1280px"
+                            className="object-cover object-center"
                         />
                     </div>
                 </section>
@@ -119,7 +125,8 @@ export function DashboardMain() {
                     onFilterChange={(type) => setActivityType(type)}
                     isLoading={isLoadingRecentActivities}
                 />
-
+
+
                 <ClubFeaturesSection />
             
             </main>

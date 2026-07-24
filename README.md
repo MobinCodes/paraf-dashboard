@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Paraf Club Dashboard
+
+🇮🇷 [نسخه فارسی](README-FA.md)
+
+![Paraf Club Dashboard](./public/readme/hero-section.png)
+
+A polished customer club dashboard built with Next.js 16, React 19, TypeScript, Tailwind CSS v4, React Query, Zustand, React Hook Form, and Zod.
+
+## Tech Stack
+
+- Next.js 16
+- React 19
+- TypeScript
+- Tailwind CSS v4
+- Shadcn/UI
+- Radix UI
+- TanStack Query
+- Zustand
+- React Hook Form
+- Zod
+- Axios
+- Lucide React
+
+## Key Features
+
+- Auth-based entry flow with login form and token persistence
+- Dashboard summary with wallet, level, and activity sections
+- Vitrin-aware context switching between profile and storefronts
+- Responsive dashboard UI with custom banners and hero sections
+- Form validation with Zod and React Hook Form
+- API-driven data fetching with React Query
+
+## Architecture Overview
+
+This project follows a Feature-First structure on top of Next.js App Router:
+
+- `src/app` contains the root shell, layout, providers, and page gate
+- `src/features/auth` contains login UI, schema, API, and auth store
+- `src/features/dashboard` contains dashboard sections, hooks, and services
+- `src/features/vitrin` contains the active dashboard context state
+- `src/shared` contains API client, shared types, and reusable UI shells
+
+The app separates client state with Zustand and server state with React Query, while form state is handled with React Hook Form + Zod.
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Build
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Start
 
-## Learn More
+```bash
+pnpm start
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Documentation
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [Architecture](./docs/architecture.md)
+- [Setup](./docs/setup.md)
+- [Auth](./docs/auth.md)
+- [Dashboard](./docs/dashboard.md)
+- [Vitrin](./docs/vitrin.md)

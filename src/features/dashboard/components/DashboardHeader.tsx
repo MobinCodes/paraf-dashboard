@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import { UserMeResponse, LevelItem } from '@/shared/types';
-import { HelpCircle } from 'lucide-react';
+import { HelpCircle, LogOut } from 'lucide-react';
+import { useAuthStore } from '@/features/auth/store/auth.store';
+import { Button } from '@/components/ui/button';
 
 import {
     Breadcrumb,
@@ -28,6 +30,7 @@ export function DashboardHeader({
     levels = [],
     walletBalance = 0,
 }: DashboardHeaderProps) {
+    const logout = useAuthStore((state) => state.logout);
     const currentScores = userData?.scores ?? 0;
     const sortedLevels = [...levels].sort((a, b) => a.scores - b.scores);
 
@@ -68,25 +71,38 @@ export function DashboardHeader({
         <header className="w-full fixed top-16 left-0 right-0 z-40 bg-surface-subtle border-b border-border/40 backdrop-blur-sm font-sans text-text-main dir-rtl">
             <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 sm:gap-4 px-3 sm:px-6 py-2 ">
 
-                <div className="flex items-center gap-1 text-xs sm:text-sm text-text-muted font-medium shrink-0">
-                    <Breadcrumb>
-                        <BreadcrumbList className="flex-nowrap whitespace-nowrap text-xs sm:text-sm">
-                            <BreadcrumbItem>
-                                <BreadcrumbLink
-                                    href="/"
-                                    className="text-text-muted hover:text-purple-primary transition-colors text-xs sm:text-sm"
-                                >
-                                    پاراف
-                                </BreadcrumbLink>
-                            </BreadcrumbItem>
-                            <BreadcrumbSeparator className="text-text-muted/50" />
-                            <BreadcrumbItem>
-                                <BreadcrumbPage className="text-text-main font-bold text-xs sm:text-sm whitespace-nowrap">
-                                    داشبورد باشگاه مشتریان
-                                </BreadcrumbPage>
-                            </BreadcrumbItem>
-                        </BreadcrumbList>
-                    </Breadcrumb>
+                <div className="flex items-center gap-2 text-xs sm:text-sm text-text-muted font-medium shrink-0">
+                    <div className="min-w-0">
+                        <Breadcrumb>
+                            <BreadcrumbList className="flex-nowrap whitespace-nowrap text-xs sm:text-sm">
+                                <BreadcrumbItem>
+                                    <BreadcrumbLink
+                                        href="/"
+                                        className="text-text-muted hover:text-purple-primary transition-colors text-xs sm:text-sm"
+                                    >
+                                        پاراف
+                                    </BreadcrumbLink>
+                                </BreadcrumbItem>
+                                <BreadcrumbSeparator className="text-text-muted/50" />
+                                <BreadcrumbItem>
+                                    <BreadcrumbPage className="text-text-main font-bold text-xs sm:text-sm whitespace-nowrap">
+                                        داشبورد باشگاه مشتریان
+                                    </BreadcrumbPage>
+                                </BreadcrumbItem>
+                            </BreadcrumbList>
+                        </Breadcrumb>
+                    </div>
+
+                    <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={logout}
+                        className="h-8 shrink-0 rounded-full border-red-200 bg-white px-3 text-xs font-bold text-red-600 hover:bg-red-50 hover:text-red-700"
+                    >
+                        <LogOut className="ml-1 h-3.5 w-3.5" />
+                        خروج
+                    </Button>
                 </div>
 
                 <div className="flex items-center gap-2 sm:gap-3 shrink-0">
