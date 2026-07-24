@@ -1,12 +1,25 @@
 'use client';
 
+import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useDashboardData } from '../hooks/useDashboardData';
 import { useVitrinStore } from '@/features/vitrin/store/vitrin.store';
 import { IMAGE_BASE_URL } from '@/shared/api/axios';
 import { Card } from '@/components/ui/card';
 import { DashboardHeader } from './DashboardHeader';
-import { Trophy, Coins, Award, CheckCircle2, History } from 'lucide-react';
+import {
+    Trophy,
+    Coins,
+    CheckCircle2,
+    History,
+    CheckSquare,
+    AlertCircle,
+    ChevronLeft,
+    Info,
+    Check
+} from 'lucide-react';
+import { WelcomeBanner } from './WelcomeBanner';
 
 export function DashboardMain() {
     const {
@@ -18,13 +31,16 @@ export function DashboardMain() {
         isLoading,
         walletBalance,
     } = useDashboardData();
+
     const { activeTab, setActiveTab } = useVitrinStore();
 
-    // محاسبه نام کاربر برای بنر
+    // محاسبه نام کاربر
     const userName =
-        userInfo?.firstName ||
-        (typeof userInfo?.user === 'object' && userInfo?.user?.firstName) ||
-        'کاربر';
+        userInfo?.firstName && userInfo?.lastName
+            ? `${userInfo.firstName} ${userInfo.lastName}`
+            : userInfo?.firstName ||
+            (typeof userInfo?.user === 'object' && userInfo?.user?.firstName) ||
+            'کاربر گرامی';
 
     // نام سطح فعال
     const activeLevelName =
@@ -32,157 +48,208 @@ export function DashboardMain() {
             ? (userInfo.level as { name?: string }).name
             : typeof userInfo?.level === 'string'
                 ? userInfo.level
-                : 'سطح پایه';
+                : 'سطح برنزی';
+
+    // آیکون سطح فعال
+    const activeLevelIcon =
+        typeof userInfo?.level === 'object' && userInfo?.level?.file?.link
+            ? userInfo.level.file.link
+            : null;
 
     return (
-        <div className="min-h-screen bg-blue-200 pb-16 font-sans text-text-main dir-rtl">
-            {/* هدر ثابت داشبورد */}
+        <div className="min-h-screen pb-16 font-sans text-text-main dir-rtl">
+            {/* هدر ثابت بالای صفحه */}
             <DashboardHeader
                 userData={userInfo}
                 levels={levels}
                 walletBalance={walletBalance}
             />
 
-            {/* محتوای اصلی داشبورد با مارجین بالای مناسب برای هدر فیکس */}
-            <main className="max-w-6xl mx-auto px-4 sm:px-6 pt-28 space-y-6 ">
+            <main className="max-w-6xl mx-auto px-4 sm:px-6 pt-24 space-y-4">
 
-                {/* ۱. بنر خوش‌آمدگویی */}
-                <div className="relative rounded-4xl  lg:rounded-full w-full max-w-[750px] bg-white p-5 lg:p-8 lg:px-10  shadow-md flex items-center justify-between mx-auto">
-                    <div className="z-10 flex flex-col gap-2 ">
-                        <span className="inline-block text-xs sm:text-sm font-medium px-3.5 py-1 rounded-full border border-white/10">
-                            <b className='font-bold me-1 text-sm sm:text-base'>
-                                {userName}
-                            </b>
-                            عزیز
+                <WelcomeBanner userName={userName} />
+
+                {/* ---------------------------------------------------- */}
+                {/* ۱. نوار بالای کارت: لینک‌های راهنما و تب‌های باشگاه */}
+                {/* ---------------------------------------------------- */}
+                <div className="flex flex-col-reverse sm:flex-row items-center justify-between gap-4 px-1 pt-2 mt-20 " >
+
+                    {/* لینک‌های سمت چپ */}
+                    <div className="flex items-center gap-6 text-xs sm:text-sm font-bold text-slate-700">
+                        <Link href="/faq" className="hover:text-slate-950 transition-colors">
+                            سوالات متداول شما
+                        </Link>
+                        <Link href="/terms" className="hover:text-slate-950 transition-colors">
+                            قوانین و مقررات
+                        </Link>
+                    </div>
+
+                    {/* بخش تب‌های سمت راست */}
+                    <div className="flex items-center gap-2">
+                        <span className="text-xs sm:text-sm font-bold text-slate-700 shrink-0">
+                            انتخاب باشگاه مشتریان:
                         </span>
-                        <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight leading-snug text-primary">
-                            به پاراف کلاب
-                            <span className='font-bold text-base sm:text-xl md:text-2xl mx-1'>
-                                (باشگاه مشتریان پاراف)
-                            </span>
-                            خوش اومدی!
-                        </h1>
-                        <p className="text-xs sm:text-sm max-w-md opacity-90 ">
-                            ماموریت هات رو انجام بده، هم سطح اعتبارت رو افزایش میدی، هم سکه میگیری.
-                        </p>
-                    </div>
-                    <div className='relative w-35 lg:w-25 h-full'>
 
-                        <div className="absolute hidden sm:block w-25 h-25 left-15 lg:w-35 lg:h-35 z-2 lg:left-0 top-15 lg:top-20 -translate-y-1/2">
-                            <Image alt='cup' fill className='object-cover '  src='/images/gold-bag.png' />
-                        </div>
-
-                        <div className="absolute w-40 h-40 -right-12 sm:-right-5 sm:w-50 sm:h-50 lg:w-70 lg:h-70 lg:-left-40 lg:top-1/2 -translate-y-1/2 z-1 scale-x-[-1]">
-                            <Image alt='cup' fill className='object-cover ' src='/images/cup-gold-hero.png' />
-                        </div> 
-                        
-                        <div className="absolute hidden lg:block w-40 h-40 -right-12 sm:-right-5 sm:w-50 sm:h-50 lg:w-70 lg:h-70 lg:-left-40 lg:top-1/2 -translate-y-1/2 z-1 scale-x-[-1]">
-                            <Image alt='cup' fill className='object-cover ' src='/images/' />
-                        </div>
-{/* 
-                        <div className="absolute w-40 h-40 -right-12 sm:-right-5 sm:w-50 sm:h-50 lg:w-70 lg:h-70 lg:-left-40 lg:top-1/2 -translate-y-1/2 z-1 scale-x-[-1]">
-                            <Image alt='cup' fill className='object-cover ' src='/images/cup-gold-hero.png' />
-                        </div>
-
-                        <div className="absolute w-40 h-40 -right-12 sm:-right-5 sm:w-50 sm:h-50 lg:w-70 lg:h-70 lg:-left-40 lg:top-1/2 -translate-y-1/2 z-1 scale-x-[-1]">
-                            <Image alt='cup' fill className='object-cover ' src='/images/cup-gold-hero.png' />
-                        </div>  */}
-
-                    </div>
-                </div>
-
-                {/* ۲. تب‌های انتخاب ویترین / پروفایل */}
-                <div className="flex items-center justify-between bg-surface-white p-1.5 sm:p-2 rounded-2xl shadow-2xs border border-border/40 mt-20">
-                    <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar py-0.5">
-                        {/* تب پروفایل شخصی */}
-                        <button
-                            onClick={() => setActiveTab('profile')}
-                            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 whitespace-nowrap ${activeTab === 'profile'
-                                ? 'bg-purple-primary text-white shadow-xs'
-                                : 'text-text-muted hover:text-text-main hover:bg-surface-subtle'
-                                }`}
-                        >
-                            پروفایل شخصی
-                        </button>
-
-                        {/* تب‌های ویترین‌ها */}
-                        {vitrins.map((vitrin) => (
+                        {/* کانتینر خاکستری تب‌ها */}
+                        <div className="flex items-center gap-1 bg-[#E2E8F0]/70 p-1 rounded-xl backdrop-blur-xs" >
+                            {/* تب پروفایل شخصی */}
                             <button
-                                key={vitrin.id}
-                                onClick={() => setActiveTab(vitrin.id)}
-                                className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 whitespace-nowrap ${activeTab === vitrin.id
-                                    ? 'bg-purple-primary text-white shadow-xs'
-                                    : 'text-text-muted hover:text-text-main hover:bg-surface-subtle'
+                                type="button"
+                                onClick={() => setActiveTab('profile')}
+                                className={`px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-bold transition-all duration-200 cursor-pointer whitespace-nowrap ${activeTab === 'profile'
+                                        ? 'bg-white text-slate-900 shadow-sm border border-slate-200/80'
+                                        : 'text-slate-600 hover:text-slate-900'
                                     }`}
                             >
-                                {vitrin.companyName || 'ویترین بدون نام'}
+                                پروفایل شخصی
                             </button>
-                        ))}
+
+                            {/* لیست تب‌های ویترین‌ها */}
+                            {vitrins.map((vitrin) => (
+                                <button
+                                    key={vitrin.id}
+                                    type="button"
+                                    onClick={() => setActiveTab(vitrin.id)}
+                                    className={`px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-bold transition-all duration-200 cursor-pointer whitespace-nowrap ${activeTab === vitrin.id
+                                            ? 'bg-white text-slate-900 shadow-sm border border-slate-200/80'
+                                            : 'text-slate-600 hover:text-slate-900'
+                                        }`}
+                                >
+                                    {vitrin.companyName || 'ویترین بدون نام'}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
+                {/* ---------------------------------------------------- */}
+                {/* ۲. کارت هیرو اصلی (سفید رنگ سه تکه مطابق فیگما) */}
+                {/* ---------------------------------------------------- */}
+                <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-200/60 grid grid-cols-1 md:grid-cols-12 gap-6 items-center" >
+
+                    {/* ستون چپ: کارت‌های آمار و سکه (4 ستون از 12) */}
+                    <div className="md:col-span-5 flex flex-col gap-3">
+                        <div className="grid grid-cols-2 gap-3">
+                            {/* کارت سطح */}
+                            <div className="bg-[#F8FAFC] border border-slate-100 rounded-2xl p-3.5 flex items-center justify-between">
+                                <div className="space-y-1">
+                                    <span className="text-xs font-bold text-slate-800 block">
+                                        {activeLevelName}
+                                    </span>
+                                    <div className="flex items-center gap-1 text-[11px] text-slate-500">
+                                        <span>{(userInfo?.scores ?? 0).toLocaleString('fa-IR')} امتیاز</span>
+                                        <Info className="w-3 h-3 text-slate-400" />
+                                    </div>
+                                </div>
+                                <div className="w-10 h-10 relative shrink-0 flex items-center justify-center">
+                                    {activeLevelIcon ? (
+                                        <Image
+                                            src={`${IMAGE_BASE_URL}${activeLevelIcon}`}
+                                            alt={activeLevelName}
+                                            width={36}
+                                            height={36}
+                                            className="object-contain"
+                                        />
+                                    ) : (
+                                        <Trophy className="w-8 h-8 text-amber-700/80" />
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* کارت سکه */}
+                            <div className="bg-[#FFFDF0] border border-amber-100/60 rounded-2xl p-3.5 flex items-center justify-between">
+                                <div className="space-y-1">
+                                    <div className="flex items-center gap-1">
+                                        <span className="text-sm font-extrabold text-slate-900">
+                                            {(userInfo?.coins ?? 0).toLocaleString('fa-IR')}
+                                        </span>
+                                        <span className="text-xs font-bold text-slate-600">سکه</span>
+                                    </div>
+                                    <div className="flex items-center gap-1 text-[10px] text-slate-400">
+                                        <span>{((userInfo?.coins ?? 0) * 100).toLocaleString('fa-IR')} تومان</span>
+                                        <Info className="w-3 h-3 text-slate-400" />
+                                    </div>
+                                </div>
+                                <div className="w-9 h-9 relative shrink-0">
+                                    <Coins className="w-8 h-8 text-amber-500" />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* نوار پایینی آمار (۳۰ روز اخیر) */}
+                        <div className="flex items-center justify-between text-[11px] text-slate-500 px-1 pt-1">
+                            <div className="flex items-center gap-1 text-emerald-600 font-bold bg-emerald-50/60 px-2 py-0.5 rounded-lg">
+                                <span>معادل ۵۶ امتیاز</span>
+                            </div>
+                            <div className="flex items-center gap-1 bg-slate-100/80 text-slate-600 px-2.5 py-1 rounded-full font-bold text-[10px]">
+                                <span>۳۰ روز اخیر</span>
+                                <ChevronLeft className="w-3 h-3" />
+                            </div>
+                        </div>
                     </div>
 
-                    <span className="text-xs text-text-muted hidden md:inline-block shrink-0 px-3 font-medium">
-                        انتخاب باشگاه مشتریان
-                    </span>
+                    {/* ستون وسط: اکشن ماموریت (3 ستون از 12) */}
+                    <div className="md:col-span-3 flex flex-col items-center justify-center gap-3 md:border-r md:border-l border-slate-100 px-2 py-2">
+                        <div className="bg-rose-50 text-rose-500 text-[11px] font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 text-center">
+                            <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                            <span>وقت کمی مونده، ماموریت رو همین الان انجام بده.</span>
+                        </div>
+                        <button
+                            type="button"
+                            className="bg-[#00A3E0] hover:bg-[#008CC0] text-white text-xs font-bold px-5 py-2.5 rounded-xl flex items-center gap-2 shadow-sm transition-colors cursor-pointer"
+                        >
+                            <span>مشاهده ماموریت</span>
+                            <CheckSquare className="w-4 h-4" />
+                        </button>
+                    </div>
+
+                    {/* ستون راست: اطلاعات پروفایل کاربر (4 ستون از 12) */}
+                    <div className="md:col-span-4 flex items-center justify-end gap-4">
+                        <div className="text-right space-y-1">
+                            <div className="flex items-center justify-end gap-1.5">
+                                <h2 className="text-base font-extrabold text-slate-900">{userName}</h2>
+                                <span className="bg-blue-500 text-white rounded-full p-0.5 inline-flex items-center justify-center w-4 h-4">
+                                    <Check className="w-2.5 h-2.5 stroke-[3]" />
+                                </span>
+                            </div>
+                            <p className="text-xs text-slate-400 font-medium">
+                                تعمیرکار موبایل / مشهد، ایران
+                            </p>
+                            <div className="flex items-center justify-end gap-2 pt-1">
+                                <span className="text-[10px] bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md">
+                                    مغازه‌دار
+                                </span>
+                                <div className="flex items-center gap-1 text-xs text-slate-500 font-medium">
+                                    <span>ماموریت انجام‌شده:</span>
+                                    <span className="font-bold text-slate-800">
+                                        {(clubSummary?.numberTasksCompleted ?? 0).toLocaleString('fa-IR')}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* عکس آواتار کاربر */}
+                        <div className="relative w-16 h-16 rounded-2xl overflow-hidden border-2 border-slate-100 bg-slate-50 shrink-0 shadow-xs">
+                            <Image
+                                src={userInfo?.avatarUrl || '/images/default-avatar.png'}
+                                alt={userName}
+                                fill
+                                className="object-cover"
+                            />
+                        </div>
+                    </div>
+
                 </div>
 
-                {/* ۳. کارت‌های آمار کلی (Overview Cards) */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    {/* کارت ۱: سطح فعال */}
-                    <Card className="p-5 flex items-center justify-between bg-surface-white border-border/40 shadow-2xs rounded-2xl">
-                        <div className="space-y-1">
-                            <p className="text-xs font-medium text-text-muted">سطح فعال شما</p>
-                            <h3 className="text-base sm:text-lg font-bold text-text-main">
-                                {isLoading ? 'در حال دریافت...' : activeLevelName}
-                            </h3>
-                            <p className="text-xs text-purple-primary font-bold pt-1">
-                                امتیاز کلی: {(userInfo?.scores ?? 0).toLocaleString('fa-IR')}
-                            </p>
-                        </div>
-                        <div className="p-3 bg-amber-500/10 rounded-2xl text-amber-500 shrink-0">
-                            <Award className="w-8 h-8 sm:w-9 sm:h-9" />
-                        </div>
-                    </Card>
-
-                    {/* کارت ۲: سکه فعلی */}
-                    <Card className="p-5 flex items-center justify-between bg-surface-white border-border/40 shadow-2xs rounded-2xl">
-                        <div className="space-y-1">
-                            <p className="text-xs font-medium text-text-muted">سکه فعلی</p>
-                            <h3 className="text-base sm:text-lg font-bold text-text-main">
-                                {(userInfo?.coins ?? 0).toLocaleString('fa-IR')} <span className="text-xs font-normal text-text-muted">سکه</span>
-                            </h3>
-                            <p className="text-xs text-text-muted font-medium pt-1">
-                                ماهانه: {(clubSummary?.totalCoinMonthly ?? 0).toLocaleString('fa-IR')} سکه
-                            </p>
-                        </div>
-                        <div className="p-3 bg-yellow-500/10 rounded-2xl text-yellow-500 shrink-0">
-                            <Coins className="w-8 h-8 sm:w-9 sm:h-9" />
-                        </div>
-                    </Card>
-
-                    {/* کارت ۳: ماموریت‌های انجام شده */}
-                    <Card className="p-5 flex items-center justify-between bg-surface-white border-border/40 shadow-2xs rounded-2xl">
-                        <div className="space-y-1">
-                            <p className="text-xs font-medium text-text-muted">ماموریت‌های تکمیل‌شده</p>
-                            <h3 className="text-base sm:text-lg font-bold text-text-main">
-                                {(clubSummary?.numberTasksCompleted ?? 0).toLocaleString('fa-IR')} <span className="text-xs font-normal text-text-muted">ماموریت</span>
-                            </h3>
-                            <p className="text-xs text-emerald-600 font-bold pt-1">
-                                امتیاز ماهانه: {(clubSummary?.totalScoreMonthly ?? 0).toLocaleString('fa-IR')}
-                            </p>
-                        </div>
-                        <div className="p-3 bg-emerald-500/10 rounded-2xl text-emerald-500 shrink-0">
-                            <CheckCircle2 className="w-8 h-8 sm:w-9 sm:h-9" />
-                        </div>
-                    </Card>
-                </div>
-
-                {/* ۴. لیست سطوح باشگاه مشتریان */}
-                <Card className="p-5 sm:p-6 bg-surface-white border-border/40 shadow-2xs rounded-2xl space-y-4">
-                    <div className="flex items-center justify-between border-b border-border/30 pb-3">
-                        <h2 className="text-sm sm:text-base font-bold text-text-main">
+                {/* ---------------------------------------------------- */}
+                {/* ۳. لیست سطوح باشگاه مشتریان */}
+                {/* ---------------------------------------------------- */}
+                <Card className="p-5 bg-white border-slate-200/60 shadow-xs rounded-2xl space-y-4">
+                    <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                        <h3 className="text-sm font-bold text-slate-900">
                             سطوح باشگاه مشتریان
-                        </h2>
-                        <span className="text-xs text-text-muted font-medium">
+                        </h3>
+                        <span className="text-xs text-slate-500 font-medium">
                             {levels.length} سطح تعریف شده
                         </span>
                     </div>
@@ -193,7 +260,7 @@ export function DashboardMain() {
                             .map((lvl, index) => (
                                 <div
                                     key={lvl.id || index}
-                                    className="flex items-center gap-3 p-3 rounded-xl border border-border/30 bg-surface-subtle/50 hover:bg-surface-subtle transition-colors"
+                                    className="flex items-center gap-3 p-3 rounded-xl border border-slate-100 bg-slate-50/50 hover:bg-slate-50 transition-colors"
                                 >
                                     <div className="relative w-10 h-10 flex items-center justify-center shrink-0">
                                         {lvl.file?.link ? (
@@ -201,22 +268,22 @@ export function DashboardMain() {
                                                 src={
                                                     IMAGE_BASE_URL.endsWith('/') || lvl.file.link.startsWith('/')
                                                         ? `${IMAGE_BASE_URL}${lvl.file.link}`
-                                                        : `${IMAGE_BASE_URL}/${lvl.file.link}`}
-
+                                                        : `${IMAGE_BASE_URL}/${lvl.file.link}`
+                                                }
                                                 alt={lvl.name}
                                                 width={36}
                                                 height={36}
                                                 className="object-contain"
                                             />
                                         ) : (
-                                            <Trophy className="w-8 h-8 text-text-muted/40" />
+                                            <Trophy className="w-8 h-8 text-slate-300" />
                                         )}
                                     </div>
                                     <div className="space-y-0.5">
-                                        <p className="text-xs sm:text-sm font-bold text-text-main">
+                                        <p className="text-xs sm:text-sm font-bold text-slate-900">
                                             {lvl.name}
                                         </p>
-                                        <p className="text-[11px] sm:text-xs text-text-muted font-medium">
+                                        <p className="text-[11px] text-slate-500 font-medium">
                                             {lvl.scores.toLocaleString('fa-IR')} امتیاز
                                         </p>
                                     </div>
@@ -225,39 +292,39 @@ export function DashboardMain() {
                     </div>
                 </Card>
 
-                {/* ۵. لیست فعالیت‌های اخیر */}
-                <Card className="p-5 sm:p-6 bg-surface-white border-border/40 shadow-2xs rounded-2xl space-y-4">
-                    <div className="flex items-center justify-between border-b border-border/30 pb-3">
+                {/* ---------------------------------------------------- */}
+                {/* ۴. لیست فعالیت‌های اخیر */}
+                {/* ---------------------------------------------------- */}
+                <Card className="p-5 bg-white border-slate-200/60 shadow-xs rounded-2xl space-y-4">
+                    <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                         <div className="flex items-center gap-2">
-                            <History className="w-4 h-4 sm:w-5 sm:h-5 text-purple-primary" />
-                            <h2 className="text-sm sm:text-base font-bold text-text-main">
+                            <History className="w-4 h-4 text-purple-600" />
+                            <h3 className="text-sm font-bold text-slate-900">
                                 فعالیت‌های اخیر
-                            </h2>
+                            </h3>
                         </div>
-                        <span className="text-xs text-text-muted font-medium bg-surface-subtle px-2.5 py-1 rounded-full border border-border/20">
+                        <span className="text-xs text-slate-500 font-medium bg-slate-100 px-2.5 py-1 rounded-full">
                             ۱۰ فعالیت اخیر
                         </span>
                     </div>
 
-                    <div className="divide-y divide-border/30">
+                    <div className="divide-y divide-slate-100">
                         {recentActivities.length === 0 ? (
-                            <div className="py-10 text-center space-y-2">
-                                <p className="text-xs sm:text-sm text-text-muted">
-                                    هیچ فعالیتی ثبت نشده است.
-                                </p>
+                            <div className="py-8 text-center text-xs text-slate-400">
+                                هیچ فعالیتی ثبت نشده است.
                             </div>
                         ) : (
                             recentActivities.map((act, i) => (
                                 <div
                                     key={i}
-                                    className="py-3.5 flex items-center justify-between text-xs sm:text-sm hover:bg-surface-subtle/40 px-2 rounded-xl transition-colors gap-3"
+                                    className="py-3 flex items-center justify-between text-xs sm:text-sm hover:bg-slate-50 px-2 rounded-xl transition-colors gap-3"
                                 >
                                     <div className="space-y-1">
-                                        <p className="font-bold text-text-main">
+                                        <p className="font-bold text-slate-800">
                                             {act.taskTitle || 'فعالیت بدون عنوان'}
                                         </p>
                                         {act.taskDescription && (
-                                            <p className="text-xs text-text-muted line-clamp-1">
+                                            <p className="text-xs text-slate-400 line-clamp-1">
                                                 {act.taskDescription}
                                             </p>
                                         )}
@@ -265,12 +332,12 @@ export function DashboardMain() {
 
                                     <div className="text-left flex items-center gap-1.5 shrink-0">
                                         {act.scoreAmount > 0 && (
-                                            <span className="bg-purple-primary/10 text-purple-primary text-[11px] sm:text-xs px-2.5 py-1 rounded-full font-bold">
+                                            <span className="bg-purple-50 text-purple-600 text-[11px] px-2.5 py-1 rounded-full font-bold">
                                                 +{(act.scoreAmount).toLocaleString('fa-IR')} امتیاز
                                             </span>
                                         )}
                                         {act.coinAmount > 0 && (
-                                            <span className="bg-yellow-500/10 text-yellow-600 text-[11px] sm:text-xs px-2.5 py-1 rounded-full font-bold">
+                                            <span className="bg-amber-50 text-amber-600 text-[11px] px-2.5 py-1 rounded-full font-bold">
                                                 +{(act.coinAmount).toLocaleString('fa-IR')} سکه
                                             </span>
                                         )}
