@@ -1,0 +1,117 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+/* ==========================================
+   1. TAILWIND v4 THEME & ALL CUSTOM COLOR TOKENS
+========================================== */
+@theme {
+  /* Fonts */
+  --font-sans: var(--font-iransans), system-ui, sans-serif;
+  --font-heading: var(--font-iransans), system-ui, sans-serif;
+
+  /* Brand & UI Colors */
+  --color-purple-primary: #7C49F2;
+  --color-blue-accent: #19A7E5;
+  
+  --color-text-main: #0F172A;
+  --color-text-muted: #64748B;
+  
+  /* Hover & Surface Tokens */
+  --color-surface-hover: #ECF0F2;
+  --color-surface-white: #FFFFFF;
+  --color-surface-subtle: #F8FAFC;
+
+  /* UI System Colors (Shadcn / Tailwind Alignment) */
+  --color-border: #a0a4aab3;
+  --color-input: #E2E8F0;
+  --color-ring: #7C49F2;
+  
+  --color-background: #ffffff;
+  --color-foreground: #0F172A;
+  
+  --color-card: #ffffff;
+  --color-card-foreground: #0F172A;
+  
+  --color-popover: #ffffff;
+  --color-popover-foreground: #0F172A;
+  
+  --color-primary: #7C49F2;
+  --color-primary-foreground: #ffffff;
+  
+  --color-secondary: #19A7E5;
+  --color-secondary-foreground: #ffffff;
+  
+  --color-muted: #F1F5F9;
+  --color-muted-foreground: #64748B;
+  
+  --color-accent: #F1F5F9;
+  --color-accent-foreground: #0F172A;
+
+  /* Alert / Status Colors */
+  --color-danger-bg: #F9D5D5;
+  --color-danger-text: #E03232;
+  --color-destructive: #E03232;
+  --color-destructive-foreground: #ffffff;
+  
+  --color-warning-bg: #FDF8E2;
+  --color-warning-text: #EBD07F;
+
+  /* Custom Gradients */
+  --background-image-gradient-page: linear-gradient(135deg, #D8E7FB 0%, #D1ECFA 100%);
+
+  /* Border Radii */
+  --radius-sm: calc(var(--radius, 0.75rem) * 0.6);
+  --radius-md: calc(var(--radius, 0.75rem) * 0.8);
+  --radius-lg: var(--radius, 0.75rem);
+  --radius-xl: calc(var(--radius, 0.75rem) * 1.4);
+}
+
+/* ==========================================
+   2. GLOBAL BASE STYLES
+========================================== */
+:root {
+  --radius: 0.75rem;
+}
+
+html {
+  scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height: 100%;
+}
+
+body {
+  background: linear-gradient(135deg, #D8E7FB 0%, #D1ECFA 100%);
+  background-attachment: fixed;
+  color: var(--color-text-main);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+}
+
+:not(i) {
+  font-family: var(--font-sans);
+}
+
+/* ==========================================
+   3. UTILITIES & GLASS EFFECTS
+========================================== */
+.glass-card {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #7C49F2;
+  border-radius: 10px;
+}
