@@ -60,15 +60,13 @@ const FEATURES_DATA: FeatureItem[] = [
 
 export function ClubFeaturesSection() {
     return (
-        <section className="space-y-6 dir-rtl">
-            {/* عنوان بخش */}
+        <section className="space-y-6 dir-rtl">
             <div className="flex items-center justify-between">
                 <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
                     ویژگی‌های <span className="text-purple-primary">پاراف‌کلاب</span>
                 </h2>
             </div>
-
-            {/* گرید ۶ تایی */}
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 {FEATURES_DATA.map((feature) => {
                     const LucideIconComponent = feature.lucideIcon;
@@ -77,20 +75,16 @@ export function ClubFeaturesSection() {
                         <Card
                             key={feature.id}
                             className="feature-card-glow relative p-6 sm:p-8 bg-white/90 backdrop-blur-md border border-slate-100 shadow-sm rounded-3xl flex flex-col items-center justify-center text-center overflow-hidden cursor-pointer group min-h-[220px]"
-                        >
-                            {/* آیکون اصلی Lucide جایگزین تصویر */}
+                        >
                             <div className="mb-4 p-4 rounded-2xl bg-purple-primary/10 text-purple-primary transition-all duration-500 group-hover:scale-110 group-hover:bg-purple-primary group-hover:text-white shrink-0">
                                 <LucideIconComponent className="w-8 h-8 sm:w-10 sm:h-10 transition-colors duration-300" />
                             </div>
-
-                            {/* کانتینر متن‌ها با انیمیشن ۳D Flip */}
-                            <div className="relative w-full h-14 flex items-center justify-center perspective-1000">
-                                {/* عنوان */}
+
+                            <div className="relative w-full h-14 flex items-center justify-center perspective-1000">
                                 <h3 className="flip-text-title absolute inset-0 flex items-center justify-center text-base sm:text-lg font-bold text-slate-800 px-2">
                                     {feature.title}
                                 </h3>
-
-                                {/* توضیحات */}
+
                                 <p className="flip-text-desc absolute inset-0 flex items-center justify-center text-xs sm:text-sm text-slate-500 leading-relaxed font-medium px-1">
                                     {feature.description}
                                 </p>

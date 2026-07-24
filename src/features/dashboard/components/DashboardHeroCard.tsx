@@ -41,7 +41,6 @@ export default function DashboardHeroCard({
     iranianAuthStatus,
     isLoading,
 }: DashboardHeroCardProps) {
-    // مدیریت Error حالت‌های لود تصویر
     const [imgAvatarSrc, setImgAvatarSrc] = useState<string>('/images/user.png');
     const [imgLevelSrc, setImgLevelSrc] = useState<string>('/images/cup-bronze.png');
 
@@ -62,12 +61,9 @@ export default function DashboardHeroCard({
     }
 
     return (
-        <div className="w-full space-y-4">
-            {/* ---------------------------------------------------- */}
-            {/* ۱. نوار بالای کارت: لینک‌های راهنما و تب‌های باشگاه */}
-            {/* ---------------------------------------------------- */}
-            <div className="flex flex-col-reverse sm:flex-row items-center justify-between gap-4 px-1 pt-2 mt-20">
-                {/* لینک‌های سمت چپ */}
+        <div className="w-full space-y-4">
+
+            <div className="flex flex-col-reverse sm:flex-row items-center justify-between gap-4 px-1 pt-2 mt-20">
                 <div className="flex items-center gap-6 text-xs sm:text-sm font-bold text-text-main">
                     <Link href="/faq" className="hover:text-purple-primary transition-colors">
                         سوالات متداول شما
@@ -76,8 +72,7 @@ export default function DashboardHeroCard({
                         قوانین و مقررات
                     </Link>
                 </div>
-
-                {/* بخش تب‌های سمت راست */}
+
                 <div className="flex items-center gap-2 overflow-x-auto max-w-full pb-1 sm:pb-0">
                     <span className="text-xs sm:text-sm font-bold text-text-main shrink-0">
                         انتخاب باشگاه مشتریان:
@@ -111,19 +106,17 @@ export default function DashboardHeroCard({
                     </div>
                 </div>
             </div>
+
 
-            {/* ---------------------------------------------------- */}
-            {/* ۲. کارت هیرو اصلی */}
-            {/* ---------------------------------------------------- */}
             <div className="bg-card rounded-3xl p-5 shadow-xs border border-border/30 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
-
-                {/* ستون راست (RTL): اطلاعات پروفایل کاربر یا ویترین */}
+
                 <div className="md:col-span-4 flex items-center justify-start gap-4">
                     <div className="relative w-16 h-16 rounded-2xl overflow-hidden border-2 border-muted bg-surface-subtle shrink-0 shadow-xs">
                         <Image
                             src={imgAvatarSrc}
                             alt={displayName}
                             fill
+                            sizes="64px"
                             className="object-cover"
                             onError={() => setImgAvatarSrc('/images/user.png')}
                         />
@@ -154,8 +147,7 @@ export default function DashboardHeroCard({
                         </div>
                     </div>
                 </div>
-
-                {/* ستون وسط: اکشن ماموریت */}
+
                 <div className="md:col-span-3 flex flex-col items-center justify-center gap-3 md:border-r md:border-l border-muted px-2 py-2">
                     <div className="bg-danger-bg text-danger-text text-[11px] font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 text-center">
                         <AlertCircle className="w-3.5 h-3.5 shrink-0" />
@@ -169,11 +161,9 @@ export default function DashboardHeroCard({
                         <CheckSquare className="w-4 h-4" />
                     </button>
                 </div>
-
-                {/* ستون چپ: کارت‌های آمار و سکه */}
+
                 <div className="md:col-span-5 flex flex-col gap-3">
-                    <div className="grid grid-cols-2 gap-3">
-                        {/* کارت سطح */}
+                    <div className="grid grid-cols-2 gap-3">
                         <div className="bg-surface-subtle border border-muted rounded-2xl p-3.5 flex items-center justify-between">
                             <div className="space-y-1">
                                 <span className="text-xs font-bold text-text-main block">
@@ -185,18 +175,19 @@ export default function DashboardHeroCard({
                                 </div>
                             </div>
                             <div className="w-10 h-10 relative shrink-0 flex items-center justify-center">
-                                <Image
-                                    src={imgLevelSrc}
-                                    alt={activeLevelName}
-                                    width={36}
-                                    height={36}
-                                    className="object-contain"
-                                    onError={() => setImgLevelSrc(getFallbackCupImage(activeLevelName))}
-                                />
+                        <Image
+                            src={imgLevelSrc}
+                            alt={activeLevelName}
+                            width={36}
+                            height={36}
+                            sizes="36px"
+                            style={{ width: 'auto', height: 'auto' }}
+                            className="object-contain"
+                            onError={() => setImgLevelSrc(getFallbackCupImage(activeLevelName))}
+                        />
                             </div>
                         </div>
-
-                        {/* کارت سکه */}
+
                         <div className="bg-amber-bg border border-amber-border/60 rounded-2xl p-3.5 flex items-center justify-between">
                             <div className="space-y-1">
                                 <div className="flex items-center gap-1">
@@ -215,8 +206,7 @@ export default function DashboardHeroCard({
                             </div>
                         </div>
                     </div>
-
-                    {/* نوار پایینی آمار (۳۰ روز اخیر) */}
+
                     <div className="flex items-center justify-between text-[11px] text-text-muted px-1 pt-1">
                         <div className="flex items-center gap-1 text-success-text font-bold bg-success-bg px-2.5 py-0.5 rounded-lg">
                             <span>کسب {(clubSummary?.totalScoreMonthly ?? 0).toLocaleString('fa-IR')} امتیاز اخیر</span>

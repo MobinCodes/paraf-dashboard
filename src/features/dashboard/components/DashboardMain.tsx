@@ -12,7 +12,6 @@ import { RecentActivitiesSection } from './RecentActivitiesSection';
 import { ClubLevelItem } from '@/shared/types';
 import { ClubFeaturesSection } from './ClubFeaturesSection';
 
-// تابع کمکی برای فرمت‌دهی آدرس تصاویر
 export const getFullImageUrl = (path?: string | null): string | null => {
     if (!path) return null;
     if (path.startsWith('http://') || path.startsWith('https://')) return path;
@@ -21,7 +20,6 @@ export const getFullImageUrl = (path?: string | null): string | null => {
     return `${cleanBase}${cleanPath}`;
 };
 
-// تابع کمکی برای پیدا کردن کاپ مناسب براساس نام سطح
 export const getFallbackCupImage = (levelName?: string): string => {
     const name = levelName?.toLowerCase() || '';
     if (name.includes('الماس') || name.includes('diamond')) return '/images/diamond.png';
@@ -46,9 +44,6 @@ export function DashboardMain() {
     const { activeTab, setActiveTab } = useVitrinStore();
     const isProfile = activeTab === 'profile';
 
-    // ----------------------------------------------------
-    // محاسبات یکپارچه داده‌ها برای پاس دادن به HeroCard
-    // ----------------------------------------------------
     const displayName = isProfile
         ? `${userInfo?.firstName || ''} ${userInfo?.lastName || ''}`.trim() || 'کاربر محترم'
         : userInfo?.companyName || 'ویترین بدون نام';
@@ -72,8 +67,7 @@ export function DashboardMain() {
     const avatarUrl = getFullImageUrl(rawAvatarLink);
 
     return (
-        <div className="min-h-screen pb-16 font-sans text-text-main dir-rtl">
-            {/* هدر ثابت بالای صفحه */}
+        <div className="min-h-screen pb-16 font-sans text-text-main dir-rtl">
             <DashboardHeader
                 userData={userInfo}
                 levels={levels}
@@ -82,8 +76,7 @@ export function DashboardMain() {
 
             <main className="max-w-7xl mx-auto px-4 sm:px-6 pt-24 space-y-20">
                 <WelcomeBanner userName={displayName} />
-
-                {/* کارت هیرو داشبورد */}
+
                 <DashboardHeroCard
                     activeTab={activeTab}
                     setActiveTab={setActiveTab}
@@ -101,15 +94,12 @@ export function DashboardMain() {
                     iranianAuthStatus={Boolean(userInfo?.iranianAuthStatus)}
                     isLoading={isLoading}
                 />
+
 
-                {/* ---------------------------------------------------- */}
-                {/* ۳. لیست سطوح باشگاه مشتریان */}
-                {/* ---------------------------------------------------- */}
                 <ClubLevelsSection
                     levels={levels}
                     currentScores={currentScores}
                     onGoToTasks={() => {
-                        // مثلا روت‌دهی به صفحه ماموریت‌ها یا باز کردن مدال
                     }}
                 />
 
@@ -123,16 +113,13 @@ export function DashboardMain() {
                     </div>
                 </section>
 
-                {/* ---------------------------------------------------- */}
-                {/* ۴. لیست فعالیت‌های اخیر */}
-                {/* ---------------------------------------------------- */}
+
                 <RecentActivitiesSection
                     activities={recentActivities}
                     onFilterChange={(type) => setActivityType(type)}
                     isLoading={isLoadingRecentActivities}
                 />
-
-                {/* ۵. سکشن ویژگی‌های پاراف کلاب */}
+
                 <ClubFeaturesSection />
             
             </main>

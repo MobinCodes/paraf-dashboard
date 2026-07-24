@@ -16,34 +16,28 @@ export function useDashboardData() {
     const activeTab = useVitrinStore((state) => state.activeTab);
     const isProfile = activeTab === 'profile';
 
-    // استیت مدیریت فیلتر نوع فعالیت‌های اخیر
     const [activityType, setActivityType] = useState<RecentActivitiesTypeEnum | undefined>(undefined);
 
-    // ۱. لیست ویترین‌ها
     const vitrinsQuery = useQuery({
         queryKey: ['vitrins'],
         queryFn: getUserVitrins,
     });
 
-    // ۲. اطلاعات کاربر یا ویترین انتخابی
     const userInfoQuery = useQuery({
         queryKey: ['userInfo', activeTab],
         queryFn: () => (isProfile ? getUserMe() : getVitrinDetail(activeTab)),
     });
 
-    // ۳. لیست سطح‌ها
     const levelsQuery = useQuery({
         queryKey: ['levels'],
         queryFn: getLevels,
     });
 
-    // ۴. خلاصه‌ی باشگاه مشتریان
     const clubSummaryQuery = useQuery({
         queryKey: ['clubSummary', activeTab],
         queryFn: () => (isProfile ? getUserClubSummary() : getVitrinClubSummary(activeTab)),
     });
 
-    // ۵. فعالیت‌های اخیر با پشتیبانی از فیلتر نوع فعالیت
     const recentActivitiesQuery = useQuery({
         queryKey: ['recentActivities', activeTab, activityType],
         queryFn: () =>
@@ -55,7 +49,6 @@ export function useDashboardData() {
             }),
     });
 
-    // استخراج ایمن آرایه‌ها برای جلوگیری از به وجود آمدن TypeError در رندر
     const rawLevels = levelsQuery.data as any;
     const levelsArray = Array.isArray(rawLevels)
         ? rawLevels
@@ -94,12 +87,10 @@ export function useDashboardData() {
         recentActivities: activitiesArray,
         walletBalance: userInfoData?.coins ?? 0,
 
-        // مقادیر و توابع مربوط به فیلتر فعالیت‌های اخیر
         activityType,
         setActivityType,
         isLoadingRecentActivities: recentActivitiesQuery.isLoading,
 
-        // لودینگ کلی داشبورد
         isLoading:
             userInfoQuery.isLoading ||
             levelsQuery.isLoading ||

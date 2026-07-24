@@ -33,7 +33,6 @@ export function LoginForm() {
         try {
             const res = await loginUser(data);
 
-            // دسترسی به accessToken از طریق res.result.accessToken
             if (res?.result?.accessToken) {
                 setToken(res.result.accessToken);
             } else {

@@ -10,7 +10,6 @@ export const api = axios.create({
     },
 });
 
-// اضافه کردن توکن به درخواست‌ها
 api.interceptors.request.use((config) => {
     if (typeof window !== 'undefined') {
         const token = localStorage.getItem('accessToken');

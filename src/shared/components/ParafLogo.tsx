@@ -1,4 +1,3 @@
-// components/ParafLogo.tsx
 import React from "react";
 
 export const ParafLogo = () => (

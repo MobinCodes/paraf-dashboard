@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 interface VitrinState {
-    activeTab: 'profile' | string; // 'profile' یعنی شخصی، در غیر این صورت userVitrinId
+    activeTab: 'profile' | string; 
     setActiveTab: (tab: string) => void;
 }
 

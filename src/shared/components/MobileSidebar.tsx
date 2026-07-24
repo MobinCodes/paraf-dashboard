@@ -29,8 +29,7 @@ export const MobileSidebar = () => {
                             </div>
                         </SheetTitle>
                     </SheetHeader>
-
-                    {/* سرچ‌باکس داخل سایدبار */}
+
                     <div className="relative w-full">
                         <input
                             type="text"
@@ -39,8 +38,7 @@ export const MobileSidebar = () => {
                         />
                         <Search className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-text-muted" />
                     </div>
-
-                    {/* ناوبری اصلی درون سایدبار */}
+
                     <div className="flex flex-col gap-4 text-sm font-medium">
                         <div className="flex flex-col gap-2">
                             <span className="text-sm text-text-muted font-semibold">کالاها</span>
@@ -63,8 +61,7 @@ export const MobileSidebar = () => {
                         <span className="cursor-pointer rounded-md px-2 py-1.5 transition-colors duration-300 hover:bg-surface-hover">فروشندگان</span>
                         <span className="cursor-pointer rounded-md px-2 py-1.5 transition-colors duration-300 hover:bg-surface-hover">نمایندگی‌ها</span>
                     </div>
-
-                    {/* دکمه‌های پایین سایدبار */}
+
                     <div className="mt-auto flex flex-col gap-3 pt-4 border-t border-border/50">
                         <button
                             type="button"

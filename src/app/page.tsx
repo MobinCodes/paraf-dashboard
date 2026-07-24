@@ -13,7 +13,6 @@ export default function HomePage() {
     setMounted(true);
   }, []);
 
-  // تا زمانی که در کلاینت mount نشده، یک لودینگ ساده یا null بده تا Hydration Error نخوری
   if (!mounted) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-slate-50">

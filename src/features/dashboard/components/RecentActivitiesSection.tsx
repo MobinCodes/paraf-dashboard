@@ -41,12 +41,10 @@ export function RecentActivitiesSection({
         }
     };
 
-    // نشان‌دهنده استایل، آیکون و کلاس‌های هاور بر اساس نوع فعالیت
     const renderActivityStyleAndIcon = (act: RecentActivityItem) => {
         const score = act.scoreAmount || 0;
         const coin = act.coinAmount || 0;
 
-        // ۱. دوگانه
         if (act.type === RecentActivitiesTypeEnum.BOTH || (score > 0 && coin > 0)) {
             return {
                 icon: <Repeat className="w-4 h-4 text-emerald-500 transition-colors group-hover:text-white" />,
@@ -61,7 +59,6 @@ export function RecentActivitiesSection({
             };
         }
 
-        // ۲. برداشت سکه
         if (act.type === RecentActivitiesTypeEnum.SPENTCOIN || coin < 0) {
             return {
                 icon: <Coins className="w-4 h-4 text-amber-500 transition-colors group-hover:text-white" />,
@@ -75,7 +72,6 @@ export function RecentActivitiesSection({
             };
         }
 
-        // ۳. انتقال سکه
         if (act.type === RecentActivitiesTypeEnum.TRANSFERCOIN) {
             return {
                 icon: <Send className="w-4 h-4 text-rose-500 transition-colors group-hover:text-white" />,
@@ -89,7 +85,6 @@ export function RecentActivitiesSection({
             };
         }
 
-        // ۴. سکه (افزایشی)
         if (act.type === RecentActivitiesTypeEnum.COIN || coin > 0) {
             return {
                 icon: <Coins className="w-4 h-4 text-sky-500 transition-colors group-hover:text-white" />,
@@ -103,7 +98,6 @@ export function RecentActivitiesSection({
             };
         }
 
-        // ۵. امتیاز (پیش‌فرض)
         return {
             icon: <Zap className="w-4 h-4 text-emerald-500 transition-colors group-hover:text-white" />,
             badgeBg: 'bg-emerald-50 text-emerald-600 group-hover:bg-emerald-500',
@@ -117,15 +111,13 @@ export function RecentActivitiesSection({
     };
 
     return (
-        <Card className="p-6 bg-white border border-slate-100 shadow-xs rounded-3xl space-y-6 dir-rtl">
-            {/* هدر بخش: عنوان، فیلترها و دکمه لیست کامل */}
+        <Card className="p-6 bg-white border border-slate-100 shadow-xs rounded-3xl space-y-6 dir-rtl">
             <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                 <div>
                     <h3 className="text-lg font-bold text-slate-900">فعالیت‌های اخیر</h3>
                     <p className="mt-0.5 text-xs text-slate-400">مروری بر آخرین فعالیت‌ها و دستاوردها</p>
                 </div>
-
-                {/* تب‌های فیلتر */}
+
                 <div className="flex items-center gap-1.5 overflow-x-auto pb-2 lg:pb-0 scrollbar-none">
                     {FILTER_TABS.map((tab) => {
                         const isActive = selectedType === tab.value;
@@ -143,15 +135,13 @@ export function RecentActivitiesSection({
                         );
                     })}
                 </div>
-
-                {/* دکمه لیست کامل */}
+
                 <button className="hidden lg:flex items-center gap-1.5 text-xs font-bold text-slate-700 hover:text-slate-900 transition-colors shrink-0 cursor-pointer">
                     <Eye className="w-4 h-4 text-slate-500" />
                     <span>لیست کامل</span>
                 </button>
             </div>
-
-            {/* لیست آیتم‌ها */}
+
             <div className="space-y-2.5">
                 {isLoading ? (
                     <div className="py-12 text-center text-xs text-slate-400">در حال دریافت اطلاعات...</div>
@@ -165,8 +155,7 @@ export function RecentActivitiesSection({
                             <div
                                 key={i}
                                 className={`group flex items-center justify-between p-3 sm:p-4 bg-slate-50/60 rounded-2xl transition-all duration-300 gap-3 border border-transparent hover:border-slate-100 hover:scale-[1.015] hover:shadow-md cursor-pointer ${styleInfo.hoverGradientClass}`}
-                            >
-                                {/* سمت راست: آیکون + عنوان تسک */}
+                            >
                                 <div className="flex items-center gap-3 min-w-0">
                                     <div
                                         className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 transition-all duration-300 ${styleInfo.badgeBg}`}
@@ -184,14 +173,12 @@ export function RecentActivitiesSection({
                                         )}
                                     </div>
                                 </div>
-
-                                {/* سمت چپ: مقدار و بج وضعیت */}
+
                                 <div className="flex items-center gap-4 shrink-0">
                                     <div className="text-right">
                                         {styleInfo.text}
                                     </div>
-
-                                    {/* بج وضعیت / زمان */}
+
                                     <div className="hidden sm:flex items-center gap-2">
                                         <span className="bg-slate-200/60 text-slate-600 text-[11px] font-medium px-2.5 py-1 rounded-full transition-colors group-hover:bg-white group-hover:shadow-xs">
                                             موفق
