@@ -10,7 +10,7 @@ export function WelcomeBanner({ userName }: WelcomeBannerProps) {
     return (
         <div className="relative w-full max-w-[750px] mx-auto">
             {/* 🔥 ۱. Fireworks سمت چپ */}
-            <div className="absolute w-36 h-36 sm:w-48 sm:h-48 lg:w-65 lg:h-65 -left-12 -top-0 sm:-left-35 sm:-top-5 z-0 animate-pulse-scale pointer-events-none">
+            <div className="absolute hidden lg:block w-36 h-36 sm:w-48 sm:h-48 lg:w-65 lg:h-65 -left-12 -top-0 sm:-left-35 sm:-top-5 z-0 animate-pulse-scale pointer-events-none">
                 <Image
                     alt="fireworks-left"
                     fill
@@ -20,7 +20,7 @@ export function WelcomeBanner({ userName }: WelcomeBannerProps) {
             </div>
 
             {/* 🔥 ۲. Fireworks وسط */}
-            <div className="absolute w-40 h-40 sm:w-52 sm:h-52 lg:w-60 lg:h-60 left-1/2 -translate-x-1/2 -top-15 sm:-top-20 z-0 animate-pulse-scale delay-1000 pointer-events-none">
+            <div className="absolute hidden lg:block w-40 h-40 sm:w-52 sm:h-52 lg:w-60 lg:h-60 left-1/2 -translate-x-1/2 -top-15 sm:-top-20 z-0 animate-pulse-scale delay-1000 pointer-events-none">
                 <Image
                     alt="fireworks-center"
                     fill
@@ -30,7 +30,7 @@ export function WelcomeBanner({ userName }: WelcomeBannerProps) {
             </div>
 
             {/* 🔥 ۳. Fireworks سمت راست */}
-            <div className="absolute w-36 h-36 sm:w-48 sm:h-48 lg:w-56 lg:h-56 -right-8 -bottom-12 sm:-right-12 sm:-bottom-20 z-0 animate-pulse-scale delay-500 pointer-events-none">
+            <div className="absolute hidden lg:block w-36 h-36 sm:w-48 sm:h-48 lg:w-56 lg:h-56 -right-8 -bottom-12 sm:-right-12 sm:-bottom-20 z-0 animate-pulse-scale delay-500 pointer-events-none">
                 <Image
                     alt="fireworks-right"
                     fill

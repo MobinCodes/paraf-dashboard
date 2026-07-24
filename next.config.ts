@@ -5,6 +5,13 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
+        hostname: 'wholesaler-core-v2.paraf.app',
+        port: '',
+        pathname: '/**',
+      },
+      // اگه هنوز از ساب‌دامین توسعه هم عکس می‌گیری نگهش دار، وگرنه می‌تونی حذفش کنی
+      {
+        protocol: 'https',
         hostname: 'wholesaler-core-develop.web.parafacc.ir',
         port: '',
         pathname: '/**',

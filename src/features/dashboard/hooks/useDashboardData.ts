@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import {
     getUserMe,
@@ -9,10 +10,14 @@ import {
     getRecentActivities,
 } from '../services/dashboard.api';
 import { useVitrinStore } from '@/features/vitrin/store/vitrin.store';
+import { RecentActivitiesTypeEnum } from '@/shared/types';
 
 export function useDashboardData() {
     const activeTab = useVitrinStore((state) => state.activeTab);
     const isProfile = activeTab === 'profile';
+
+    // استیت مدیریت فیلتر نوع فعالیت‌های اخیر
+    const [activityType, setActivityType] = useState<RecentActivitiesTypeEnum | undefined>(undefined);
 
     // ۱. لیست ویترین‌ها
     const vitrinsQuery = useQuery({
@@ -38,18 +43,19 @@ export function useDashboardData() {
         queryFn: () => (isProfile ? getUserClubSummary() : getVitrinClubSummary(activeTab)),
     });
 
-    // ۵. فعالیت‌های اخیر
+    // ۵. فعالیت‌های اخیر با پشتیبانی از فیلتر نوع فعالیت
     const recentActivitiesQuery = useQuery({
-        queryKey: ['recentActivities', activeTab],
+        queryKey: ['recentActivities', activeTab, activityType],
         queryFn: () =>
             getRecentActivities({
                 size: 10,
                 offset: 0,
+                type: activityType,
                 userVitrinId: isProfile ? undefined : activeTab,
             }),
     });
 
-    // استخراج آرایه‌ها با هندل کردن ساختارهای احتمالی API
+    // استخراج ایمن آرایه‌ها برای جلوگیری از به وجود آمدن TypeError در رندر
     const rawLevels = levelsQuery.data as any;
     const levelsArray = Array.isArray(rawLevels)
         ? rawLevels
@@ -86,8 +92,14 @@ export function useDashboardData() {
         levels: levelsArray,
         clubSummary: clubSummaryData,
         recentActivities: activitiesArray,
-        // گرفتن سکه/کیف پول از اطلاعات کاربر یا ویترین
         walletBalance: userInfoData?.coins ?? 0,
+
+        // مقادیر و توابع مربوط به فیلتر فعالیت‌های اخیر
+        activityType,
+        setActivityType,
+        isLoadingRecentActivities: recentActivitiesQuery.isLoading,
+
+        // لودینگ کلی داشبورد
         isLoading:
             userInfoQuery.isLoading ||
             levelsQuery.isLoading ||
